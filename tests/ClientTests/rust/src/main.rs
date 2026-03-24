@@ -17,7 +17,7 @@ use tokio_stream::StreamExt;
 
 const DEFAULT_BASE_URL: &str =
     "https://agentbin.greensmoke-1163cb63.eastus.azurecontainerapps.io";
-const SDK_VERSION: &str = "a2a-rs-client 1.0.9";
+const SDK_VERSION: &str = "a2a-rs-client 1.0.12";
 
 // ── Result structures ──────────────────────────────────────────────
 
@@ -1566,8 +1566,9 @@ async fn run_jsonrpc_tests(base_url: &str, results: &mut Vec<TestResult>) {
 // bypass agent card discovery.
 
 async fn run_rest_tests(base_url: &str, results: &mut Vec<TestResult>) {
-    let echo_url = format!("{}/echo", base_url);
-    let spec_url = format!("{}/spec", base_url);
+    // REST binding URLs use /v1 suffix per agent card's HTTP+JSON interface
+    let echo_url = format!("{}/echo/v1", base_url);
+    let spec_url = format!("{}/spec/v1", base_url);
 
     let echo = match build_rest_client(&echo_url) {
         Ok(c) => c,
